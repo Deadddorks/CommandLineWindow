@@ -1,0 +1,55 @@
+.root{
+    -fx-background-color: #0A100E;
+    -fx-font-family: monospace;
+}
+.scroll-pane
+{
+    -fx-background-radius: 17;
+    -fx-background-color: #2C302E;
+    -fx-padding: 5;
+    -fx-border-color: BLACK;
+    -fx-border-radius: 15;
+    -fx-border-width: 6;
+    -fx-highlight-fill: red;
+}
+.scroll-pane>.viewport
+{
+    -fx-background-color: #2C302E;
+    -fx-background-radius: 10;
+}
+.scroll-bar
+{
+    -fx-background-radius: 10;
+    -fx-background-color: black;
+    -fx-progress-color: white;
+}
+.check-box
+{
+    -fx-background-color: darkred;
+    -fx-border-color: black;
+    -fx-padding: 5;
+    -fx-stroke-width: 5;
+    -fx-border-radius: 10;
+    -fx-background-radius: 12;
+    -fx-border-width: 4;
+    -fx-text-fill: WHITE;
+    /*-fx-font-family: monospace;*/
+    -fx-pref-width: 80;
+    -fx-alignment: center;
+}
+.text-field
+{
+    -fx-font-family: monospace;
+    -fx-font-size: 20;
+    -fx-text-fill: WHITE;
+    -fx-background-color: #2C302E;
+    -fx-background-radius: 10;
+    -fx-border-color: BLACK;
+    -fx-border-radius: 10;
+    -fx-border-width: 3;
+}
+.label
+{
+    -fx-font-weight: bold;
+    -fx-text-fill: WHITE;
+}

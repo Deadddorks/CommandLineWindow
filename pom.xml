@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.github.Deadddorks</groupId>
             <artifactId>Importable</artifactId>
-            <version>v1.5.5</version>
+            <version>f4525b6080</version>
         </dependency>
 
         <dependency>

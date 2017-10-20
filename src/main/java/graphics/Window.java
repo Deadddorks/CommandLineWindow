@@ -76,6 +76,9 @@ public class Window extends Application
 		grid.addRow(-1, 0);
 		grid.addRow(-2, 0);
 		grid.initGridPaneConstraints();
+		grid.setVgap(5);
+		grid.setHgap(5);
+		grid.setPadding(new Insets(3));
 		
 		// Init Scrolls
 		topScrollPane1 = new ConsolePane(fontName, fontSize);
@@ -95,6 +98,7 @@ public class Window extends Application
 		
 		// Text editor
 		textField = nodeGenerator.createTextField("Enter commands here", 1);
+		//textField.setPadding(new Insets(3, 8, 3, 3));
 		textField.setOnKeyPressed(e -> {
 			switch (e.getCode())
 			{
@@ -124,8 +128,9 @@ public class Window extends Application
 		
 		// Set up window
 		scene = new Scene(grid, WIDTH, HEIGHT);
+		scene.getStylesheets().add("gui_style.css");
 		window.setScene(scene);
-		window.setTitle("Neural Network GUI");
+		window.setTitle("Console");
 		window.sizeToScene();
 		window.show();
 		
@@ -149,7 +154,28 @@ public class Window extends Application
 	
 	private void runCommand(final String command)
 	{
-		topScrollPane2.print("["+command+"]");
+		topScrollPane2.print("> " + command);
+		switch (command.toLowerCase())
+		{
+			case "command":
+				topScrollPane2.print("You entered a command!");
+				break;
+			case "help":
+				topScrollPane2.print("Display help data");
+				break;
+			case "output":
+				bottomScrollPane.print("Printing to output window.");
+				break;
+			case "clear console":
+				topScrollPane2.clear();
+				break;
+			case "clear output":
+				bottomScrollPane.clear();
+				break;
+			default:
+				topScrollPane2.print("Not a valid command");
+				break;
+		}
 	}
 	
 	public static void main(String[] args)

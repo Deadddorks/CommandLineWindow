@@ -6,6 +6,7 @@ package data;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import exceptions.ParameterNotFoundException;
 import exceptions.ParameterParseFailureException;
 
@@ -63,6 +64,7 @@ public abstract class Command
 	{
 		return name;
 	}
+	
 	public Argument[] getArgs()
 	{
 		Argument[] args = new Argument[arguments.size()];
@@ -86,6 +88,7 @@ public abstract class Command
 		}
 		throw new ParameterNotFoundException(param);
 	}
+	
 	protected double getDoubleFromParameter(final char param, final RuntimeArgument... args) throws ParameterNotFoundException, ParameterParseFailureException
 	{
 		for (RuntimeArgument arg : args)
@@ -97,6 +100,7 @@ public abstract class Command
 		}
 		throw new ParameterNotFoundException(param);
 	}
+	
 	protected String getStringFromParameter(final char param, final RuntimeArgument... args) throws ParameterNotFoundException
 	{
 		for (RuntimeArgument arg : args)
