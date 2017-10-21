@@ -1,12 +1,12 @@
-package exceptions;
+package data.commands;
 //--------------------------------------------------
 //----- Imports ------------------------------------
 //--------------------------------------------------
-
+import java.util.ArrayList;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
-public class ParameterNotFoundException extends Exception
+public abstract class CreationCommand extends Command
 {
 	
 	//--------------------------------------------------
@@ -25,13 +25,26 @@ public class ParameterNotFoundException extends Exception
 	//--------------------------------------------------
 	//----- Variables ----------------------------------
 	//--------------------------------------------------
-	
+	private ArrayList<String> directories;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	
-	public ParameterNotFoundException(final char param)
+	public CreationCommand(final String name, final ArrayList<String> directories)
 	{
-		super("Could not find parameter ["+Character.toString(param)+"]");
+		this.name = name;
+		this.directories = directories;
+	}
+	
+	public boolean isAtFinalDirectory()
+	{
+		return directories.isEmpty();
+	}
+	
+	public String moveUpDirectory()
+	{
+		String dir = directories.get(0);
+		directories.remove(0);
+		return dir;
 	}
 	
 }

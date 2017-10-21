@@ -1,12 +1,14 @@
-package data;
+package data.commands;
 //--------------------------------------------------
 //----- Imports ------------------------------------
 //--------------------------------------------------
-
+import data.CommandDirectory;
+import data.arguments.ArgumentList;
+import data.arguments.RuntimeArgumentList;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
-public abstract class WritableCommand extends Command
+public abstract class Command
 {
 	
 	//--------------------------------------------------
@@ -25,17 +27,44 @@ public abstract class WritableCommand extends Command
 	//--------------------------------------------------
 	//----- Variables ----------------------------------
 	//--------------------------------------------------
+	protected String name;
+	protected ArgumentList arguments;
 	
+	private RuntimeArgumentList runtimeArgs;
+	private CommandDirectory directory;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	
-	public WritableCommand(final String name, Argument... args)
+	protected Command()
 	{
-		super(name);
-		for (Argument arg : args)
-		{
-			arguments.add(arg);
-		}
+		
+	}
+	
+	public void execute(RuntimeArgumentList args)
+	{
+		runtimeArgs = args;
+		onExecute();
+	}
+	
+	public abstract void onExecute();
+	
+	private boolean argPassed(final char label)
+	{
+		return runtimeArgs.argPassed(label);
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	private CommandDirectory getDirectory()
+	{
+		return directory;
+	}
+	public <T> void setDirectory(CommandDirectory directory)
+	{
+		this.directory = directory;
 	}
 	
 }

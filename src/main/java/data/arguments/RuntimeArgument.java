@@ -1,13 +1,12 @@
-package exceptions;//--------------------------------------------------
+package data.arguments;
+//--------------------------------------------------
 //----- Imports ------------------------------------
 //--------------------------------------------------
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
-import data.Argument;
-
-public class ParameterParseFailureException extends Exception
+public class RuntimeArgument
 {
 	
 	//--------------------------------------------------
@@ -16,7 +15,6 @@ public class ParameterParseFailureException extends Exception
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
-	
 	//--------------------------------------------------
 	//----- Constants ----------------------------------
 	//--------------------------------------------------
@@ -26,13 +24,30 @@ public class ParameterParseFailureException extends Exception
 	//--------------------------------------------------
 	//----- Variables ----------------------------------
 	//--------------------------------------------------
-	
+	private char label;
+	private String value;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	
-	public ParameterParseFailureException(final String parameter, final Argument.ExpectedArgType expectedArgType)
+	public RuntimeArgument(final char label, final String value)
 	{
-		super("Expected Argument Type: {"+expectedArgType+"}, Received: ["+parameter+"]");
+		init(label, value);
+	}
+	
+	private void init(final char label, final String value)
+	{
+		this.label = label;
+		this.value = value;
+	}
+	
+	public boolean labelMatch(final char labelToTest)
+	{
+		return (label == labelToTest);
+	}
+	
+	public char getLabel()
+	{
+		return label;
 	}
 	
 }

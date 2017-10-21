@@ -1,14 +1,14 @@
-package data;
+package data.arguments;
 //--------------------------------------------------
 //----- Imports ------------------------------------
 //--------------------------------------------------
+import exceptions.ArgumentNotFoundException;
 
+import java.util.ArrayList;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
-import exceptions.InvalidArgLabelException;
-
-public class Argument
+public class ArgumentList
 {
 	
 	//--------------------------------------------------
@@ -21,47 +21,48 @@ public class Argument
 	//--------------------------------------------------
 	//----- Constants ----------------------------------
 	//--------------------------------------------------
-	public enum ExpectedArgType	{INTEGER, DOUBLE, STRING}
+	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	//--------------------------------------------------
 	//----- Variables ----------------------------------
 	//--------------------------------------------------
-	protected char argLabel;
-	
-	protected String description;
-	protected ExpectedArgType expectedArgType;
+	private ArrayList<Argument> arguments;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	
-	protected Argument(final char argLabel, final String description, final ExpectedArgType expectedArgType)
+	public ArgumentList()
 	{
-		if (!Character.isAlphabetic(argLabel))
+		arguments = new ArrayList<>();
+	}
+	
+	public void addArgument(final Argument argument)
+	{
+		arguments.add(argument);
+	}
+	
+	public Argument[] getArgList()
+	{
+		Argument[] args = new Argument[arguments.size()];
+		
+		for (int i = 0; i < arguments.size(); i++)
 		{
-			throw new InvalidArgLabelException(argLabel);
+			args[i] = arguments.get(i);
 		}
 		
-		this.argLabel = argLabel;
-		this.description = description;
-		this.expectedArgType = expectedArgType;
+		return args;
 	}
 	
-	public char getArgLabel()
+	public Argument getArgByLabel(final char label) throws ArgumentNotFoundException
 	{
-		return argLabel;
-	}
-	public String getDescription()
-	{
-		return description;
-	}
-	public ExpectedArgType getExpectedArgType()
-	{
-		return expectedArgType;
+		for (Argument arg : arguments)
+		{
+			if (arg.labelMatch(label))
+			{
+				return arg;
+			}
+		}
+		throw new ArgumentNotFoundException(label);
 	}
 	
-	@Override
-	public String toString()
-	{
-		return "-" + Character.toString(argLabel) + " ("+expectedArgType+") " + description;
-	}
 }

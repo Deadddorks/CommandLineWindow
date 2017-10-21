@@ -1,12 +1,13 @@
-package data;
-//--------------------------------------------------
+package graphics;//--------------------------------------------------
 //----- Imports ------------------------------------
 //--------------------------------------------------
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
-public class WriteableArguement extends Argument
+import importable.javafx.ConsolePane;
+
+public class WindowData
 {
 	
 	//--------------------------------------------------
@@ -25,13 +26,29 @@ public class WriteableArguement extends Argument
 	//--------------------------------------------------
 	//----- Variables ----------------------------------
 	//--------------------------------------------------
-	
+	final ConsolePane data;
+	final ConsolePane console;
+	final ConsolePane output;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	
-	public WriteableArguement(final char argLabel, final String description, final ExpectedArgType expectedArgType)
+	public WindowData(final ConsolePane data, final ConsolePane console, final ConsolePane output)
 	{
-		super(argLabel, description, expectedArgType);
+		this.data = data;
+		this.console = console;
+		this.output = output;
 	}
 	
+	public ConsolePane getData()
+	{
+		return data;
+	}
+	public ConsolePane getConsole()
+	{
+		return console;
+	}
+	public ConsolePane getOutput()
+	{
+		return output;
+	}
 }

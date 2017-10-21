@@ -1,17 +1,14 @@
-package data;
+package data.arguments;
 //--------------------------------------------------
 //----- Imports ------------------------------------
 //--------------------------------------------------
+import exceptions.ArgumentNotFoundException;
 
+import java.util.ArrayList;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import exceptions.ParameterParseFailureException;
-
-import java.security.InvalidParameterException;
-
-public class RuntimeArgument
+public class RuntimeArgumentList
 {
 	
 	//--------------------------------------------------
@@ -30,47 +27,54 @@ public class RuntimeArgument
 	//--------------------------------------------------
 	//----- Variables ----------------------------------
 	//--------------------------------------------------
-	final char argLabel;
-	final String arg;
+	ArrayList<RuntimeArgument> arguments;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
 	
-	public RuntimeArgument(final char argLabel, final String arg)
+	public RuntimeArgumentList()
 	{
-		this.argLabel = argLabel;
-		this.arg = arg;
+		arguments = new ArrayList<>();
 	}
 	
-	public char getArgLabel()
+	public void addArgument(final RuntimeArgument argument)
 	{
-		return argLabel;
+		arguments.add(argument);
 	}
 	
-	public String getArgAsString()
+	public RuntimeArgument[] getArgList()
 	{
-		return arg;
+		RuntimeArgument[] args = new RuntimeArgument[arguments.size()];
+		
+		for (int i = 0; i < arguments.size(); i++)
+		{
+			args[i] = arguments.get(i);
+		}
+		
+		return args;
 	}
-	public int getArgAsInt() throws ParameterParseFailureException
+	
+	public RuntimeArgument getArgByLabel(final char label) throws ArgumentNotFoundException
 	{
-		try
+		for (RuntimeArgument arg : arguments)
 		{
-			return Integer.parseInt(arg);
+			if (arg.labelMatch(label))
+			{
+				return arg;
+			}
 		}
-		catch (NumberFormatException e)
-		{
-			throw new ParameterParseFailureException(arg, Argument.ExpectedArgType.INTEGER);
-		}
+		throw new ArgumentNotFoundException(label);
 	}
-	public double getArgAsDouble() throws ParameterParseFailureException
+	
+	public boolean argPassed(char label)
 	{
-		try
+		for (RuntimeArgument arg : arguments)
 		{
-			return Double.parseDouble(arg);
+			if (arg.labelMatch(label))
+			{
+				return true;
+			}
 		}
-		catch (NumberFormatException e)
-		{
-			throw new ParameterParseFailureException(arg, Argument.ExpectedArgType.DOUBLE);
-		}
+		return false;
 	}
 	
 }

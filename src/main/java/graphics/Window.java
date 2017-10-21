@@ -1,16 +1,16 @@
 package graphics;
 //----- Imports ------------------------------------
 //--------------------------------------------------
+import data.CommandDirectory;
+import data.commands.RuntimeCommand;
+import exceptions.CommandDoesNotExistException;
 import importable.javafx.ConsolePane;
 import importable.javafx.GridHandler;
 import importable.javafx.NodeGenerator;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -32,7 +32,6 @@ public class Window extends Application
 	//--------------------------------------------------
 	//----- Constants ----------------------------------
 	//--------------------------------------------------
-	private enum ConsoleWindow {DATA, CONSOLE, OUTPUT}
 	
 	private final int WIDTH = 1200;
 	private final int HEIGHT = 900;
@@ -49,15 +48,33 @@ public class Window extends Application
 	//~~~~~
 	private NodeGenerator nodeGenerator = new NodeGenerator(new Font("Times New Roman", 15), Color.BLACK);
 	
+	private Object superClass;
+	CommandDirectory commandDirectory;
+	
 	private Scene scene;
 	private GridHandler grid;
 	private ConsolePane topScrollPane1, topScrollPane2, bottomScrollPane;
+	private WindowData windowData;
 	private TextField textField;
 	
 	private int prevIndex;
 	private ArrayList<String> prevCommands;
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~~
+	
+	public Window(final Object superClass)
+	{
+		super();
+		System.out.println("Param: " + superClass);
+		this.superClass = superClass;
+		System.out.println("this.: " + this.superClass);
+	}
+	public Window()
+	{
+		super();
+		
+		//this.superClass = superClass;
+	}
 	
 	@Override
 	public void start(Stage window) throws Exception
@@ -88,6 +105,10 @@ public class Window extends Application
 		topScrollPane2.setPadding(new Insets(5));
 		bottomScrollPane = new ConsolePane(fontName, fontSize);
 		bottomScrollPane.setPadding(new Insets(5));
+		
+		windowData = new WindowData(topScrollPane1, topScrollPane2, bottomScrollPane);
+		System.out.println("superClass(method): "+superClass);
+		commandDirectory = new CommandDirectory(superClass, windowData);
 		
 		// Add contents to boxes
 		int j = 25;
@@ -155,26 +176,13 @@ public class Window extends Application
 	private void runCommand(final String command)
 	{
 		topScrollPane2.print("> " + command);
-		switch (command.toLowerCase())
+		try
 		{
-			case "command":
-				topScrollPane2.print("You entered a command!");
-				break;
-			case "help":
-				topScrollPane2.print("Display help data");
-				break;
-			case "output":
-				bottomScrollPane.print("Printing to output window.");
-				break;
-			case "clear console":
-				topScrollPane2.clear();
-				break;
-			case "clear output":
-				bottomScrollPane.clear();
-				break;
-			default:
-				topScrollPane2.print("Not a valid command");
-				break;
+			commandDirectory.execute(new RuntimeCommand(command, null, new ArrayList<>()));
+		}
+		catch (CommandDoesNotExistException e)
+		{
+			windowData.getConsole().print(e.getMessage());
 		}
 	}
 	
